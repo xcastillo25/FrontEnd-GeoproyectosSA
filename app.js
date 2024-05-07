@@ -43,6 +43,7 @@ require('./server/routes/login')(app);
 require('./server/routes/categorias')(app);
 require('./server/routes/servicios')(app);
 require('./server/routes/clientes')(app);
+require('./server/routes/agrimensura-catastro')(app);
 
 app.get('*', (req, res) => {
     res.status(200).send({ message: 'Bienvenido' });

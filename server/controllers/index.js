@@ -7,8 +7,9 @@ const login = require('./login');
 const categorias = require('./categorias');
 const servicios = require('./servicios');
 const clientes = require('./clientes');
+const agrimensura = require('./agrimensura-catastro');
 
 module.exports = {
     empresas, empleados, photos, usuarios, roles, login, categorias,
-    servicios, clientes
+    servicios, clientes, agrimensura
 }

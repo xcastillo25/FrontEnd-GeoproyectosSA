@@ -1,9 +1,9 @@
-const { tblclientes }  = require('../models');
+const { Clientes }  = require('../models');
 const { Op } = require('sequelize');
 
 const mostrarClientes = async (req, res) => {
     try {
-        const clientes = await tblclientes.findAll();
+        const clientes = await Clientes.findAll();
         res.status(200).send({ clientes: clientes });
     } catch (error) { 
         console.error(error);
@@ -13,7 +13,7 @@ const mostrarClientes = async (req, res) => {
 
 const mostrarClientesActivos = async (req, res) => {
     try {
-        const clientes = await tblclientes.findAll({
+        const clientes = await Clientes.findAll({
             where: {
                 activo: true
             }
@@ -27,7 +27,7 @@ const mostrarClientesActivos = async (req, res) => {
 
 const crearCliente = async (req, res) => {
     try {
-        const existeCliente = await tblclientes.findOne({
+        const existeCliente = await Clientes.findOne({
             where: { 
                 nit: req.body.nit,
                 cui: req.body.cui
@@ -38,7 +38,7 @@ const crearCliente = async (req, res) => {
             return res.status(400).send({ message: 'Ya has registrado este cliente'})
         }
 
-        const nuevoCliente = await tblclientes.create(req.body, { 
+        const nuevoCliente = await Clientes.create(req.body, { 
             fields: ['nombre', 'apellidos', 'nit', 'cui', 'telefono', 'email', 'direccion', 'activo'], 
             individualHooks: true 
         });
@@ -54,7 +54,7 @@ const actualizarCliente = async (req, res) => {
     const { idcliente } = req.params;
 
     try {
-        const cliente = await tblclientes.findByPk(idcliente);
+        const cliente = await Clientes.findByPk(idcliente);
 
         if (!cliente) {
             return res.status(404).send({ message: 'Cliente no encontrado.' });
@@ -75,7 +75,7 @@ const eliminarCliente = async (req, res) => {
     const { idcliente } = req.params;
 
     try{
-        await tblclientes.destroy({
+        await Clientes.destroy({
             where: { idcliente: idcliente}
         });
 
@@ -89,7 +89,7 @@ const eliminarCliente = async (req, res) => {
 const cambiarEstadoCliente = async (req, res) => { 
     try{
         const { idcliente } = req.params;
-        const cliente = await tblclientes.findOne({ where: {idcliente: idcliente}});
+        const cliente = await Clientes.findOne({ where: {idcliente: idcliente}});
 
         cliente.activo = !cliente.activo;
 

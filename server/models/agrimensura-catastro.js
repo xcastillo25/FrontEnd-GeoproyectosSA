@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const AgrimensuraCatastro = sequelize.define(
-        'tblagrimensura_catastro',
+        'AgrimensuraCatastro',
         {
             idagrimensura: {
                 type: DataTypes.INTEGER,
@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DATE,
                 allowNull: false
             },
-            fecha_vista_campo: {
+            fecha_visita_campo: {
                 type: DataTypes.DATE,
                 allowNull: false
             },
@@ -82,10 +82,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             recibo: {
                 type: DataTypes.BOOLEAN,
-                allowNull: true
+                allowNull: true,
+                defaultValue: true
             },
             ubicacion: {
-                type: DataTypes.STRING(250),
+                type: DataTypes.GEOMETRY('POINT', 4326),
                 allowNull: true
             },
             direccion_servicio: {
@@ -102,9 +103,20 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         {
-            timestamps: false
+            timestamps: false,
+            tableName: 'tblagrimensura_catastro'
         }
     );
+
+    AgrimensuraCatastro.associate = function(models) {
+        // Asociar con el modelo Clientes
+        AgrimensuraCatastro.belongsTo(models.Clientes, { foreignKey: 'idcliente', as: 'Cliente' });
+
+        // Asociar con el modelo Servicios
+        AgrimensuraCatastro.belongsTo(models.Servicios, { foreignKey: 'idservicio', as: 'Servicio' });
+
+        // Otras asociaciones...
+    };
 
     return AgrimensuraCatastro;
 };
