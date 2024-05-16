@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Avaluos = sequelize.define(
-        'tblavaluos',
+        'Avaluos',
         {
             idavaluo: {
                 type: DataTypes.INTEGER,
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
                     key: 'idcliente'
                 }
             },
-            id_servicio: {
+            idservicio: {
                 type: DataTypes.INTEGER,
                 allowNull: true,  // Nullable porque la referencia no indica explícitamente `not null`
                 references: {
@@ -58,10 +58,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             recibo: {
                 type: DataTypes.BOOLEAN,
-                allowNull: true
+                allowNull: true,
+                defaultValue: true
             },
             ubicacion: {
-                type: DataTypes.STRING(250),
+                type: DataTypes.GEOMETRY('POINT', 4326),
                 allowNull: true
             },
             direccion_servicio: {
@@ -78,9 +79,20 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         {
-            timestamps: false
+            timestamps: false,
+            tableName: 'tblavaluos'
         }
     );
+
+    Avaluos.associate = function(models) {
+        // Asociar con el modelo Clientes
+        Avaluos.belongsTo(models.Clientes, { foreignKey: 'idcliente', as: 'Cliente' });
+
+        // Asociar con el modelo Servicios
+        Avaluos.belongsTo(models.Servicios, { foreignKey: 'idservicio', as: 'Servicio' });
+
+        // Otras asociaciones...
+    };
 
     return Avaluos;
 };

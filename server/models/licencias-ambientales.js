@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const LicenciasAmbientales = sequelize.define(
-        'tbllicencias_ambientales',
+        'LicenciasAmbientales',
         {
             idlicencia: {
                 type: DataTypes.INTEGER,
@@ -66,10 +66,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             recibo: {
                 type: DataTypes.BOOLEAN,
-                allowNull: true
+                allowNull: true,
+                defaultValue: true
             },
             ubicacion: {
-                type: DataTypes.STRING(250),
+                type: DataTypes.GEOMETRY('POINT', 4326),
                 allowNull: true
             },
             direccion_servicio: {
@@ -82,13 +83,24 @@ module.exports = (sequelize, DataTypes) => {
             },
             activo: {
                 type: DataTypes.BOOLEAN,
-                defaultValue: true
+                defaultValue: true,
             }
         },
         {
-            timestamps: false
+            timestamps: false,
+            tableName: 'tbllicencias_ambientales'
         }
     );
+
+    LicenciasAmbientales.associate = function(models) {
+        // Asociar con el modelo Clientes
+        LicenciasAmbientales.belongsTo(models.Clientes, { foreignKey: 'idcliente', as: 'Cliente' });
+
+        // Asociar con el modelo Servicios
+        LicenciasAmbientales.belongsTo(models.Servicios, { foreignKey: 'idservicio', as: 'Servicio' });
+
+        // Otras asociaciones...
+    };
 
     return LicenciasAmbientales;
 };
