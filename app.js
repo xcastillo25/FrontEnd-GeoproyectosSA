@@ -47,6 +47,7 @@ require('./server/routes/clientes')(app);
 require('./server/routes/agrimensura-catastro')(app);
 require('./server/routes/avaluos')(app);
 require('./server/routes/licencias-ambientales')(app);
+require('./server/routes/otros-servicios')(app);
 
 app.get('*', (req, res) => {
     res.status(200).send({ message: 'Bienvenido' });

@@ -32,7 +32,7 @@ const mostrarLicenciaAmbiental = async (req, res) => {
         });
         res.status(200).send({ licencias: licenciasTransformadas });
     } catch (error) {
-        console.error('Error al obtener agrimensuras:', error);
+        console.error('Error al obtener las licencias:', error);
         res.status(500).send({ message: 'Error interno del servidor', error: error.message });
     }
 };

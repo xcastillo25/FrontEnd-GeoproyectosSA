@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const OtrosServicios = sequelize.define(
-        'tblotros_servicios',
+        'OtrosServicios',
         {
             idotro_servicio: {
                 type: DataTypes.INTEGER,
@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
                 autoIncrement: true,
                 allowNull: false
             },
-            id_cliente: {
+            idcliente: {
                 type: DataTypes.INTEGER,
                 allowNull: true,  // Nullable porque la referencia no indica explícitamente `not null`
                 references: {
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
                     key: 'idcliente'
                 }
             },
-            id_servicio: {
+            idservicio: {
                 type: DataTypes.INTEGER,
                 allowNull: true,  // Nullable porque la referencia no indica explícitamente `not null`
                 references: {
@@ -46,7 +46,8 @@ module.exports = (sequelize, DataTypes) => {
             },
             recibo: {
                 type: DataTypes.BOOLEAN,
-                allowNull: true
+                allowNull: true,
+                defaultValue: true
             },
             activo: {
                 type: DataTypes.BOOLEAN,
@@ -54,9 +55,20 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         {
-            timestamps: false
+            timestamps: false,
+            tableName: 'tblotros_servicios'
         }
     );
+
+    OtrosServicios.associate = function(models) {
+        // Asociar con el modelo Clientes
+        OtrosServicios.belongsTo(models.Clientes, { foreignKey: 'idcliente', as: 'Cliente' });
+
+        // Asociar con el modelo Servicios
+        OtrosServicios.belongsTo(models.Servicios, { foreignKey: 'idservicio', as: 'Servicio' });
+
+        // Otras asociaciones...
+    };
 
     return OtrosServicios;
 };
