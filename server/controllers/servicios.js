@@ -16,6 +16,85 @@ const mostrarServicios = async (req, res) => {
     }
 }
 
+const filtrarPorAgrimensuras = async (req, res) => {
+    try {
+        const servicios = await Servicios.findAll({
+            include: [{
+                model: Categorias,
+                as: 'Categoria',
+                attributes: ['categoria'],
+                where: {
+                    categoria: ['Agrimensura', 'Catastro'] // Filtra por las categorías deseadas
+                }
+            }]
+        });
+        res.status(200).send({ servicios: servicios });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Error interno del servidor', error: error.message });
+    }
+};
+
+
+const filtrarPorAvaluos = async (req, res) => {
+    try {
+        const servicios = await Servicios.findAll({
+            include: [{
+                model: Categorias,
+                as: 'Categoria',
+                attributes: ['categoria'],
+                where: {
+                    categoria: ['Avaluos'] // Filtra por las categorías deseadas
+                }
+            }]
+        });
+        res.status(200).send({ servicios: servicios });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Error interno del servidor', error: error.message });
+    }
+};
+
+
+const filtrarPorLicencias = async (req, res) => {
+    try {
+        const servicios = await Servicios.findAll({
+            include: [{
+                model: Categorias,
+                as: 'Categoria',
+                attributes: ['categoria'],
+                where: {
+                    categoria: ['Licencias Ambientales'] // Filtra por las categorías deseadas
+                }
+            }]
+        });
+        res.status(200).send({ servicios: servicios });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Error interno del servidor', error: error.message });
+    }
+};
+
+const filtrarPorOtrosServicios = async (req, res) => {
+    try {
+        const servicios = await Servicios.findAll({
+            include: [{
+                model: Categorias,
+                as: 'Categoria',
+                attributes: ['categoria'],
+                where: {
+                    categoria: ['Servicios de Impresión', 'Vuelos de Dron', 'Planos Arquitectónicos'] // Filtra por las categorías deseadas
+                }
+            }]
+        });
+        res.status(200).send({ servicios: servicios });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Error interno del servidor', error: error.message });
+    }
+};
+
+
 const mostrarServiciosActivos = async (req, res) => {
     try {
         const servicios = await Servicios.findAll({
@@ -111,5 +190,6 @@ const cambiarEstadoServicio = async (req, res) => {
 module.exports = {
     mostrarServicios, mostrarServiciosActivos,
     crearServicio, actualizarServicio, eliminarServicio,
-    cambiarEstadoServicio
+    cambiarEstadoServicio, filtrarPorAgrimensuras, filtrarPorAvaluos,
+    filtrarPorLicencias, filtrarPorOtrosServicios
 };
