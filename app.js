@@ -17,8 +17,8 @@ app.use((err, req, res, next) => {
 
 // Configurar CORS
 const allowedOrigins = [
-    'https://main--geoproyectossa.netlify.app',
-    'http://localhost:4200'
+    'https://geoproyectossa.netlify.app',
+    // 'http://localhost:4200'
 ];
 
 app.use(cors({
