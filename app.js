@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -14,22 +15,25 @@ app.use((err, req, res, next) => {
     }
 });
 
-// Cabeceras CORS
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://main--geoproyectossa.netlify.app');
-    // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+// Configurar CORS
+const allowedOrigins = [
+    'https://main--geoproyectossa.netlify.app',
+    'http://localhost:4200'
+];
 
-    if (req.method === 'OPTIONS') {
-            res.sendStatus(200);
-    } else {
-        next();
-    }
-});
+app.use(cors({
+    origin: function(origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('No permitido por CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+    allowedHeaders: ['Authorization', 'X-API-KEY', 'Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Access-Control-Allow-Request-Method']
+}));
 
-//ESPACIO PARA LAS SOLICITUDES
+// ESPACIO PARA LAS SOLICITUDES
 app.get('/', (req, res) => {
     res.status(200).send({ message: 'Bienvenido a Geoproyectos' });
 });
@@ -59,4 +63,3 @@ app.options('*', (req, res) => {
 });
 
 module.exports = app;
-
