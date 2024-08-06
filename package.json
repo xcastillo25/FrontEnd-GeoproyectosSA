@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./bin/www.js",
+    "start": "nodemon ./bin/www.js",
     "dev": "nodemon ./bin/www.js"
   },
   "keywords": [],
@@ -27,5 +27,8 @@
     "serverless-http": "^3.2.0",
     "tedious": "^18.1.0",
     "wkx": "^0.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }

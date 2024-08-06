@@ -76,7 +76,11 @@ module.exports = (sequelize, DataTypes) => {
             activo: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: true
-            }
+            },
+            fecha_visita_campo: {
+                type: DataTypes.DATE,
+                allowNull: false
+            },
         },
         {
             timestamps: false,

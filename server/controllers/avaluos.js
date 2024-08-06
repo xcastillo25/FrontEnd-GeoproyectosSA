@@ -69,7 +69,7 @@ const crearAvaluo = async (req, res) => {
         const { idcliente, idservicio, costo, anticipo, licenciado,
                 telefono_licenciado, fecha_ingreso, numero_expediente,
                 fecha_ingreso_ampliacion, observaciones,
-                ubicacion, direccion_servicio, estado } = req.body;
+                ubicacion, direccion_servicio, estado, fecha_visita_campo } = req.body;
 
         console.log("Inserting with WKT:", ubicacion);
  // Asegúrate de que ubicacion contenga las coordenadas en el formato correcto
@@ -87,7 +87,8 @@ const crearAvaluo = async (req, res) => {
             observaciones,
             ubicacion: sequelize.fn('geometry::STGeomFromText', sequelize.literal(`'${ubicacion}'`), 4326),
             direccion_servicio,
-            estado
+            estado,
+            fecha_visita_campo
         });
 
         res.status(201).send({ message: 'Avaluo creado con éxito', data: nuevoAvaluo });
@@ -111,7 +112,7 @@ const actualizarAvaluo = async (req, res) => {
         const { idcliente, idservicio, costo, anticipo, licenciado,
             telefono_licenciado, fecha_ingreso, numero_expediente,
             fecha_ingreso_ampliacion, observaciones,
-            ubicacion, direccion_servicio, estado } = req.body;
+            ubicacion, direccion_servicio, estado, fecha_visita_campo } = req.body;
 
         
         // Preparar datos para la actualización
@@ -128,7 +129,8 @@ const actualizarAvaluo = async (req, res) => {
             observaciones,
             ubicacion,
             direccion_servicio,
-            estado
+            estado,
+            fecha_visita_campo
         };
 
         // Actualizar la ubicación si se proporciona nueva, utilizando el formato WKT correcto

@@ -18,7 +18,7 @@ app.use((err, req, res, next) => {
 // Configurar CORS
 const allowedOrigins = [
     'https://geoproyectossa.netlify.app',
-    // 'http://localhost:4200'
+    'http://localhost:4200'
 ];
 
 app.use(cors({
@@ -52,6 +52,8 @@ require('./server/routes/agrimensura-catastro')(app);
 require('./server/routes/avaluos')(app);
 require('./server/routes/licencias-ambientales')(app);
 require('./server/routes/otros-servicios')(app);
+require('./server/routes/historial-servicios')(app);
+require('./server/routes/viewservicios')(app);
 
 app.get('*', (req, res) => {
     res.status(200).send({ message: 'Bienvenido' });
